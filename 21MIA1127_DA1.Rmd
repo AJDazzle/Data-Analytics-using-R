@@ -1,0 +1,297 @@
+---
+title: "21MIA1127_DA-1"
+author: "Dishant Naik"
+date: "2024-08-13"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+Sys.info()
+```
+
+```{r}
+# using iris dataset
+d = iris
+head(d)
+```
+```{r}
+summary(d)
+```
+
+```{r}
+# Numeric Functions
+```
+
+```{r}
+# Absolute values 
+abs(d$Sepal.Length)
+```
+
+```{r}
+#Square Root 
+squareroot_sepallength = sqrt(d$Sepal.Length)
+squareroot_sepallength
+```
+
+```{r}
+# Ceiling 
+ceiling(d$Sepal.Length)
+```
+
+```{r}
+# Floor 
+floor(d$Sepal.Length)
+```
+
+```{r}
+# trunc
+trunc(d$Sepal.Length)
+```
+
+```{r}
+# round 
+round(squareroot_sepallength,2)
+```
+
+```{r}
+# Signif
+signif(squareroot_sepallength,2)
+```
+
+
+```{r}
+# cos(),sin(),tan()
+sin_sepal_length <- sin(d$Sepal.Length)
+cos_sepal_length <- cos(d$Sepal.Length)
+acos_sepal_length <- acos(d$Sepal.Length / max(d$Sepal.Length)) 
+acosh_sepal_length <- acosh(d$Sepal.Length + 1) 
+tan_sepal_length <- tan(d$Sepal.Length)
+cosh_sepal_length <- cosh(d$Sepal.Length)
+
+# Combine the results into a data frame
+trig_iris <- data.frame(
+  Sepal.Length = d$Sepal.Length,
+  sin = sin_sepal_length,
+  cos = cos_sepal_length,
+  acos = acos_sepal_length,
+  acosh = acosh_sepal_length,
+  tan = tan_sepal_length,
+  cosh = cosh_sepal_length
+)
+head(trig_iris)
+```
+
+
+```{r}
+# log
+log(d$Sepal.Length)
+```
+
+```{r}
+# log10
+log10(d$Sepal.Length)
+```
+
+```{r}
+# exp
+exp(d$Sepal.Length)
+```
+
+```{r}
+# mean 
+mean_sl = mean(d$Sepal.Length,trim = 0.05,na.rm = TRUE)
+mean_sl
+```
+
+```{r}
+# standard deviation
+sd_sl = sd(d$Sepal.Length)
+sd_sl
+```
+
+```{r}
+# median
+median_sl = median(d$Sepal.Length)
+median_sl
+```
+
+```{r}
+# quantile
+quantile_sl = quantile(d$Sepal.Length,c(.3,.84))
+quantile_sl
+```
+
+```{r}
+# range 
+range_sl = range(d$Sepal.Length)
+range_sl
+```
+
+```{r}
+# sum 
+sum_sl = sum(d$Sepal.Length)
+sum_sl
+```
+
+```{r}
+# lagged difference
+diff_sl = diff(d$Sepal.Length, lag = 1)
+diff_sl
+
+```
+
+```{r}
+# min 
+min_sl = min(d$Sepal.Length)
+min_sl
+```
+
+```{r}
+# max 
+max_sl = max(d$Sepal.Length)
+max_sl 
+```
+
+```{r}
+# Scale
+scale_sl = scale(d$Sepal.Length,center = TRUE,scale = TRUE)
+scale_sl
+```
+
+```{r}
+# seq
+library(dplyr)
+```
+
+```{r}
+# seq
+a = mutate(d,seq_sl=seq(1,150,1))
+a
+```
+
+```{r}
+# rep 
+b = rep(d$Sepal.Length,2)
+b
+```
+
+```{r}
+# cut
+cut_sl = cut(d$Sepal.Length,5)
+cut_sl
+```
+
+```{r}
+# Character Function
+```
+
+```{r}
+#substr
+substr_species = substr(d$Species,1,4)
+substr_species
+```
+
+```{r}
+# grep 
+grep_species = grep("vir",d$Species,ignore.case = FALSE,fixed = FALSE)
+grep_species
+```
+
+```{r}
+# substitute
+sub_species = sub("set","t",d$Species,ignore.case = FALSE,fixed = FALSE)
+sub_species
+```
+
+```{r}
+# strsplit
+split1 = strsplit(as.character(d$Species), "")
+split1
+```
+
+```{r}
+#paste
+paste1 = paste("ABC",d$Species,sep = " ")
+paste1
+```
+
+```{r}
+# uppercase
+toupper(d$Species)
+```
+
+```{r}
+# lowercase
+tolower(d$Species)
+```
+
+```{r}
+# normal density dunction (dnorm)
+dnorm1 = dnorm(d$Sepal.Length,mean_sl,sd_sl)
+dnorm1
+```
+
+```{r}
+# cumulative normal probablity(pnorm)
+pnorm1 = pnorm(d$Sepal.Length,mean_sl,sd_sl)
+pnorm1
+```
+
+```{r}
+# normal quantile(qnorm)
+qnorm1 = qnorm(0.75,mean_sl,sd_sl)
+qnorm1
+```
+
+```{r}
+# random normal samples(rnorm)
+rnorm1 = rnorm(5, mean_sl,sd_sl)
+rnorm1
+```
+
+```{r}
+#dbinom, pbinom, qbinom, rbinom
+dbinom1 = dbinom(d$Sepal.Length,40,0.8)
+dbinom1
+pbinom1 = pbinom(d$Sepal.Length,40,0.8)
+pbinom1
+qbinom1 = qbinom(d$Sepal.Length,40,0.8)
+qbinom1
+rbinom1 = rbinom(d$Sepal.Length,40,0.8)
+rbinom1
+```
+
+```{r}
+# dpois, qpois, rpois, ppois
+dpois1 = dpois(d$Sepal.Length,lambda=2)
+dpois1
+ppois1 = ppois(d$Sepal.Length,lambda=2)
+ppois1
+qpois1 = qpois(d$Sepal.Length,lambda=2)
+qpois1
+rpois1 = rpois(d$Sepal.Length,lambda=2)
+rpois1
+```
+
+```{r}
+# dunif, punif, qunif, runif 
+dunif1 = dunif(d$Petal.Length,min=0,max=1)
+dunif1
+punif1 = punif(d$Petal.Length,min=0,max=1)
+punif1
+qunif1 = qunif(d$Petal.Length,min=0,max=1)
+qunif1
+runif1 = runif(d$Petal.Length,min=0,max=1)
+runif 
+```
+
+
+
+```{r}
+Sys.info()
+```
+
