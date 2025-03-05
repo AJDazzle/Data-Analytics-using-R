@@ -1,0 +1,268 @@
+---
+title: "Lab - 8"
+author: "21MIA1127 Dishant Naik"
+date: "2024-09-27"
+output: html_document
+---
+
+```{r}
+d = read.csv("C:/Users/Dishant/Downloads/Dataset.csv")
+head(d)
+```
+
+```{r}
+#1. Display the structure of the data survey.
+str(d)
+```
+
+
+```{r}
+#2. Provide the statistical summary of the data frame.
+summary(d) 
+```
+
+
+```{r}
+#3. Display the column names of the survey data frame
+colnames(d)
+```
+
+```{r}
+#4. Retrieve the top 5 rows from the data frame.
+head(d, 5)
+```
+
+```{r}
+library(dplyr)
+```
+
+```{r}
+#5. List the rows of data that have missing values. How many records have missing values?
+m = d[!complete.cases(d), ]
+print(m)
+print(nrow(m))
+```
+
+
+```{r}
+#6. List the records with missing values in ‘Height’.
+mh = d[is.na(d$Height),]
+mh
+```
+
+
+```{r}
+#7. Find the average height and store it in Avg_Height1.
+Avg_height1 = mean(d$Height, na.rm = TRUE)
+Avg_height1
+```
+
+
+```{r}
+library(Hmisc)
+```
+
+
+```{r}
+#8. Find the average height after replacing the missing values with median and store it in Avg_height2. Find the difference between the average height1 and height2.
+
+a = impute(d$Height, median)
+Avg_height2 = mean(a)
+Avg_height2
+diff1 = Avg_height1 - Avg_height2
+diff1
+```
+
+
+```{r}
+#9. Find the average height after replacing the missing values with mean and store it in Avg_height3. Find the difference between the average height1 and height3.
+b = impute(d$Height, mean)
+Avg_height3 = mean(b)
+Avg_height3
+diff2 = Avg_height1 - Avg_height3
+diff2
+```
+
+
+```{r}
+#10. Impute the survey data set with any one of methods and find the summary statistics.
+d2=read.csv("C:/Users/Dishant/Downloads/Dataset.csv")
+a1=sum(is.na(d2))
+a1
+d2$Gender=impute(d2$Gender,mode)
+d2$Whandspan=impute(d2$Whandspan,mean)
+d2$NWHandSpan=impute(d2$NWHandSpan,mean)
+d2$W.Hnd=impute(d2$W.Hnd,mode)
+d2$Pulse=impute(d2$Pulse,mean)
+d2$Clap=impute(d2$Clap,mode)
+d2$Exercise=impute(d2$Exercise,mode)
+d2$SmokingHabit=impute(d2$SmokingHabit,mode)
+d2$Height=impute(d2$Height,mean)
+d2$M.I=impute(d2$M.I,mode)
+d2$Age=impute(d2$Age.mean)
+asum=sum(is.na(d2))
+asum
+summary(d2)
+```
+
+
+```{r}
+#11. Create a data frame ‘cleansurvey’ that contains the survey data after removing the na values. Use it for answering further queries.
+cleansurvey=d%>%filter(complete.cases(d))
+head(cleansurvey,5)
+
+```
+
+
+```{r}
+#12. Break the age range into non-overlapping sub-intervals by defining a sequence of equal distance break points of 10 by rounding the range to nearest integer.
+c = range(cleansurvey$Age)
+c
+min1 = min(cleansurvey$Age)
+max1 = max(cleansurvey$Age)
+sequence = seq(min1 ,max1 ,by=10)
+interval = cut(cleansurvey$Age,sequence,include.lowest = TRUE)
+interval
+```
+
+
+```{r}
+#13. Find the distribution of the age range according to the sub-intervals defined in the previous question.
+table(interval)
+```
+
+
+```{r}
+#14. How many male and female students participated in the survey?
+table(cleansurvey$Gender)
+
+```
+
+
+```{r}
+#15. How many the left and right handers are there?
+table(cleansurvey$W.Hnd)
+```
+
+
+```{r}
+#16. Find the relative frequency distribution of left and right handers and display them with the precision of two decimal places.
+d = table(cleansurvey$W.Hnd)
+e = round(prop.table(d),2)
+e
+```
+
+
+```{r}
+#17. What percentage of male left handers never smokes?
+f = cleansurvey%>%filter(cleansurvey$W.Hnd=="Left",cleansurvey$SmokingHabit=="Never")%>%count()
+g = cleansurvey%>%filter(cleansurvey$W.Hnd=="Left")%>%count()
+h = f/g
+i = h*100
+i
+
+```
+
+
+```{r}
+#18. Find the range of students’ age participated in the survey.
+range(cleansurvey$Age)
+
+```
+
+
+```{r}
+#19. Print the age range of students that has the most participation in the survey.
+which.max(table(interval))
+
+```
+
+
+```{r}
+#20. Find the frequency distribution of W.Hnd span and display it in column format.
+j = table(cleansurvey$W.Hnd)
+data.frame(j)
+
+```
+
+
+```{r}
+#21. Find the relative and cumulative frequency of W.Hnd and display it by correcting to 3 decimal places.
+a1 = table(cleansurvey$W.Hnd)
+a = round(prop.table(a1),3)
+a2 = cumsum(a)
+a
+a2
+
+```
+
+
+```{r}
+#22. Find the average age of the students participated in the survey.
+mean(cleansurvey$Age)
+```
+
+
+```{r}
+#23. Compute the standard deviation and variance of the height of the students participated in the survey.
+sd(cleansurvey$Height)
+var(cleansurvey$Height)
+```
+
+```{r}
+#24. Compute the quartile of write hand span.
+quantile(cleansurvey$Whandspan)
+```
+
+
+```{r}
+#25. Find the average age of the students based on how often the student exercises.
+cleansurvey%>%group_by(Exercise)%>%summarise(avg_age=mean(cleansurvey$Age))
+```
+
+
+```{r}
+#26. Find the standard deviation of height of the students under different categories of W.Hnd .
+cleansurvey%>%group_by(W.Hnd)%>%summarise(std_dev=sd(Height))
+
+```
+
+
+```{r}
+#27. Obtain the summary statistics of pulse rate of the students.
+summary(cleansurvey$Pulse)
+```
+
+
+```{r}
+#28. Find the skewness of pulse and age. What do you infer from it?
+library(moments)
+skewness(cleansurvey$Pulse)
+skewness(cleansurvey$Age)
+
+#Pulse has almost near zero skewness and Age has a positive skewness
+```
+
+
+```{r}
+#29. Find the kurtosis of height, pulse and age. Comment on its type.
+kurtosis(cleansurvey["Height"])
+#Platykurtic
+
+kurtosis(cleansurvey["Pulse"])
+#Leptokurtic
+
+kurtosis(cleansurvey["Age"])
+#Leptokurtic
+```
+
+
+```{r}
+#30. Find the relation between Height and the span of the writing hand.
+cor(cleansurvey$Height, cleansurvey$Whandspan)
+```
+
+```{r}
+Sys.info()
+```
+

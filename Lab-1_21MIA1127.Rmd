@@ -1,0 +1,171 @@
+---
+title: "Lab-1_21MIA1127"
+output:
+  html_document: default
+  pdf_document: default
+date: "2024-07-27"
+---
+```{r}
+#1 Create vector 'student' to store the names of 5 students
+student = c("Vishwajeet","Dishant","Dazzle","Shashank","Ujan")
+print(student)
+```
+
+```{r}
+#2 Use assign() function to create a vector 'Marks' to store the marks scored by these students
+assign("Marks",c(38,52,75,16,40))
+print(Marks)
+```
+
+```{r}
+#3  Display the mark of student3
+Marks[3]
+```
+```{r}
+#4 Combine the vectors 'student' and 'Marks' as details
+details = c(student,Marks)
+print(details)
+```
+```{r}
+#5 Find the length of combined vector 'details'
+length(details)
+```
+
+```{r}
+#6. Find the minimum mark and print the student who scored it.
+print(min(Marks))
+print(student[which.min(Marks)])
+```
+
+```{r}
+#7. Find the maximum average mark and print the student who scored it.
+print(max(Marks))
+print(student[which.max(Marks)])
+```
+
+```{r}
+#8. Find the total marks scored by all the students.
+print(sum(Marks))
+```
+
+```{r}
+#9. Find the mean of the marks scored by all students.
+print(mean(Marks))
+```
+
+```{r}
+#10. Find the standard deviation of the marks scored by all students
+print(sd(Marks))
+```
+
+```{r}
+#11. Arrange the marks in ascending order.
+print(sort(Marks))
+```
+
+```{r}
+#12. Create a vector students by repeat the vector student thrice.
+print(rep(student,times=3))
+```
+
+```{r}
+#13. Create a vector marks by repeating each Mark twice.
+print(rep(Marks,each=2))
+```
+
+```{r}
+#14. Create a sequence of 10 to 1. Add it to the vector Marks and display it.
+sequence = 10:1
+marks_sequence = c(Marks,sequence)
+marks_sequence
+```
+
+```{r}
+#15. Create a vector bool that contains logical values 'TRUE' or 'FALSE' depending on the condition marks>70.
+print(Marks>70)
+```
+
+```{r}
+#16. Create a numeric vector of length 10, later assign a sequence(using : operator) of first 5 natural numbers to the created vector.
+num = numeric(10)
+num[1:5] = 1:5
+print(num)
+```
+
+```{r}
+#17. Convert the above vector into logical type and complex type vector.
+print(as.logical(num))
+print(as.complex(num))
+```
+
+```{r}
+#18. Create any five different atomic variables and combine them into a vector.
+var1 = 5
+var2 = "abcd"
+var3 = TRUE
+var4 = 23.67
+var5 = 5+7i
+combined_vector = c(var1,var2,var3,var4,var5)
+print(combined_vector)
+```
+
+```{r}
+#19. Create any five different atomic variables and combine them into a list.
+var_list = list(var1,var2,var3,var4,var5)
+print(var_list)
+```
+
+```{r}
+#20. Try to shorten the notation of the following vectors as much as possible, using : notation
+  #a. x <- c(157, 158, 159, 160, 161, 162, 163, 164)
+  #b. x <- c(15, 16, 17, 18, 20, 21, 22, 23, 24)
+  #c. x <- c(10, 9, 8, 7, 6, 5, 4, 3, 2, 1)
+  #d. x <- c(1.5, 2.5, 3.5, 4.5, 5.5)
+
+  a = 157:164
+  print(a)
+
+  # b
+  b = c(15:18, 20:24)
+  print(b)
+
+  # c
+  c = 10:1
+  print(c)
+
+  # d
+  d = seq(1.5, 5.5)
+  print(d)
+```
+
+```{r}
+#21. Create a matrix StudentMarks which stores the marks scored by 5 students in 4 courses.
+StudentMarks = matrix(c(78,92,85,66,90,70,75,80,95,65,89,90,85,76,70,60,88,77,95,85),nrow=5,ncol=4,byrow=TRUE)
+rownames(StudentMarks) = c("Vishwajeet","Dazzle","Dishant","Shashank","Ujan")
+colnames(StudentMarks) = c("biology","chemistry","physics","maths")
+print(StudentMarks)  
+```
+
+```{r}
+#22. Find the class average of each course.
+print(colMeans(StudentMarks))
+```
+
+```{r}
+#23. Find the total score of each student.
+print(rowSums(StudentMarks))
+```
+
+```{r}
+#24. Print the marks scored by all the students in subject 1 and subject4.
+print(StudentMarks[, 1])
+print(StudentMarks[, 4])
+```
+
+```{r}
+#25. Include the marks scored by two new students in all the courses
+new_students<-matrix(c(80,85,90,95,75,70,65,60),nrow=2,ncol=4,byrow=TRUE)
+StudentMarks<-rbind(StudentMarks,new_students)
+rownames(StudentMarks)[6:7]<-c("Ansh","Mithun")
+print(StudentMarks)
+```

@@ -1,0 +1,227 @@
+---
+title: "LAB-3"
+author: "21MIA1127_Dishant"
+date: "2024-08-02"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+# PART-A
+
+# Create a data frame with 6 students and the marks scored by them in 5 different courses.
+#1 Each course has a maximum score of 100. If a student is present for the exam, its entry contains the score value and 0 otherwise. 
+
+student = data.frame(name = c("ABC","DEF","GHI","JKL","MNO","UVW"),
+                     maths = c(90,85,80,75,65,60),
+                     biology = c(60,65,70,75,80,85),
+                     chemistry = c(75,80,85,90,96,50),
+                     English = c(65,80,86,97,89,54),
+                     physics = c(45,65,77,76,87,98))
+student 
+
+```
+```{r}
+#2 Find the total score of each student. Append a column to include the total score of the students. 
+
+student$total_score = rowSums(student[, 2:6])
+student 
+```
+```{r}
+#3 Store the details in a comma separated values (csv) file – StudMarks.csv. Also suppress the row numbers. 
+
+write.csv(student, "studmarks.csv", row.names = FALSE)
+```
+
+```{r}
+#4 Read the content of „StudMarks.csv‟ in a new data frame and view it. 
+
+stud_new = read.csv("studmarks.csv")
+stud_new
+```
+```{r}
+#5 Access the scores of students in course3 using the column name. 
+
+stud_new$chemistry
+```
+
+```{r}
+#6 Extract the score of third student in course4. 
+
+stud_new[3, 5]
+```
+
+```{r}
+#7 Extract the scores of the first and second student in all the courses. 
+
+stud_new[1:2, 2:6]
+```
+
+```{r}
+#8 Display the names and total scores of all students. 
+
+stud_new[, c("name", "total_score")]
+```
+
+```{r}
+#9 Make the column “name” as the row index of the data frame. 
+
+rownames(stud_new) = stud_new$name
+stud_new$name = NULL
+stud_new
+```
+
+```{r}
+#10 Display the names of the students those who were present for Course4
+
+stud_present_Course4 = rownames(stud_new)[stud_new$English>0]
+stud_present_Course4
+```
+
+```{r}
+#11 Obtain the names whose total score is above its average.
+
+avg_score = mean(stud_new$total_score)
+above_avg = rownames(stud_new)[stud_new$total_score>avg_score]
+above_avg
+```
+
+
+```{r}
+#PART - B
+
+#1 Display the structure and dimension of mtcars
+
+mtcars_copy=mtcars
+str(mtcars_copy)
+dim(mtcars_copy)
+```
+
+```{r}
+#2 Find the car models that have the highest and the lowest horse power.
+
+high_hp_model=rownames(mtcars_copy)[which.max(mtcars_copy$hp)]
+high_hp_model
+low_hp_model=rownames(mtcars_copy)[which.min(mtcars_copy$hp)]
+low_hp_model
+
+```
+
+```{r}
+#3 Display the names of all the automobile models listed in mtcars
+
+model = rownames(mtcars_copy)
+model
+
+```
+
+```{r}
+#4 Identify the car models whose horse power is greater than the average horse power
+
+avg_hp = mean(mtcars_copy$hp)
+above_avg = rownames(mtcars_copy)[mtcars_copy$hp > avg_hp]
+above_avg
+
+```
+
+
+```{r}
+#5 How many cars have automatic transmission? Display their names.
+
+automatic_car=sum(mtcars_copy$am==0)
+automatic_car_models=rownames(mtcars_copy)[mtcars_copy$am==0]
+automatic_car_models
+
+```
+
+
+```{r}
+#PART - C
+
+#1 Store your date of birth in a variable dt.
+
+dt = "2003-11-05"
+dt
+```
+
+
+```{r}
+#2 Convert the type of dt to Date() and store it in a variable and print its type.
+
+dt_date = as.Date(dt)
+class(dt_date)
+
+```
+
+
+```{r}
+#3 Convert the type of dt to POSIXct() and store it in a variable and print its type.
+
+dt_POSIXct = as.POSIXct(dt)
+class(dt_POSIXct)
+
+```
+
+
+```{r}
+#4 Convert the type of dt to POSIXlt() and store it in a variable and print its type.
+
+dt_POSIClt = as.POSIXlt(dt)
+class(dt_POSIClt)
+
+```
+
+
+```{r}
+#5 Print the weekday, month and quarter of your DoB.
+
+weekday=weekdays(dt_date)
+month=months(dt_date)
+quarter=quarters(dt_date)
+list(weekday=weekday, month=month, quarter=quarter)
+
+```
+
+
+```{r}
+#6 Generate and display 5 consecutive days from your DoB.
+
+consecutive_days = seq(dt_date, by="day", length.out=5)
+consecutive_days
+
+```
+
+
+```{r}
+#7 Print today’s date and time.
+
+current_dt=Sys.time()
+current_dt
+
+```
+
+
+```{r}
+#8 Generate and display 5 new dates from your DoB with a distance of 3 months.
+
+new_dates=seq(dt_date, by="3 months", length.out=5)
+new_dates
+
+```
+
+
+```{r}
+#9 Display your age in year and months. [eg: 20 years and 4 months]
+
+current_date=Sys.Date()
+age=as.numeric(difftime(current_date, dt_date, units="weeks")) / 52.25
+years=floor(age)
+months=round((age - years) * 12)
+paste(years, "years and", months,"months")
+```
+
+
+```{r}

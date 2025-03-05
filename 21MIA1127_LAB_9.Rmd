@@ -1,0 +1,117 @@
+---
+title: "Lab-9"
+author: "21MIA1127 Dishant Naik"
+date: "2024-10-04"
+output: html_document
+---
+
+## 1. A study is performed to obtain the relationship between the medical expenses and the patient’s age. You are given the data as shown in below Table.
+### Age Medical expenses
+### 15 100
+### 32 150
+### 55 370
+### 65 1000
+### 70 1500
+```{r}
+Age=c(15,32,55,65,70)
+Medical_expenses=c(100,150,370,1000,1500)
+```
+
+## 1(a) Calculate the appropriate correlation coefficient between the Age and Medical expenses. Comment on the relationship.
+```{r}
+a=sum((Age-mean(Age))*(Medical_expenses-mean(Medical_expenses)))
+b=(sqrt(sum((Age - mean(Age))^2)) * sqrt(sum((Medical_expenses - mean(Medical_expenses))^2)))
+a/b
+```
+```{r}
+cor(Age, Medical_expenses)
+```
+
+## 1(b) Obtain the regression equation to predict the medical expenses (y) as a function of Age (x).
+```{r}
+B_1=sum((Age-mean(Age))*(Medical_expenses-mean(Medical_expenses)))/sum((Age-mean(Age))^2)
+B_1
+B_0=mean(Medical_expenses)-(B_1*mean(Age))
+B_0
+paste("Y=",B_0,"+(",B_1,"* X)")
+model=lm(Medical_expenses~Age)
+summary(model)
+```
+
+## 1(c) Predict the expense for a 60 year old patient.
+```{r}
+Y=B_0+(B_1*60)
+Y
+```
+
+## 2. Consider the following five training examples
+### x= (2,3,4,5,6,7)
+### y= (3.5,4,4.2,4.8,5,5.2)
+```{r}
+x=c(2,3,4,5,6,7)
+y=c(3.5,4,4.2,4.8,5,5.2)
+```
+
+## Write the R script for the following and give your inference.
+## 2(a) Find the best linear fit (Y=aX+b).
+```{r}
+#Y1=a1+(b1*X)
+b1 = sum((x-mean(x))*(y-mean(y)))/sum((x-mean(x))^2)
+a1 = mean(y)-(b1*mean(x))
+b1
+a1
+paste("Y=",a1,"+(",b1,"* X)")
+model=lm(y~x)
+summary(model)
+```
+
+## 2(b) Plot the model.
+```{r}
+plot(x, y, main = "Linear Fit", xlab = "X", ylab = "Y", pch = 19)
+abline(a = a1, b = b1, col = "red", lwd = 2)
+```
+
+## 2(c) Find the residuals.
+```{r}
+# Calculate the predicted y values (fitted values)
+predicted_y=(b1 * x) + a1
+# Calculate residuals
+residuals=y - predicted_y
+# Output residuals
+residuals
+```
+
+## 2(d) Evaluate the standard errors associated with a and b.
+```{r}
+n2=6
+rss = sum(residuals^2)
+s2 = rss / (n2 - 2)
+
+se_a = sqrt(s2 * n2 / (n2 * sum(x^2) - sum(x)^2))
+se_b = sqrt(s2 * sum(x^2) / (n2 * sum(x^2) - sum(x)^2))
+
+se_a
+se_b
+```
+
+## 2(e) Compute R2 and Adjusted R2 statistic
+```{r}
+tss = sum((y - mean(y))^2)
+r_squared = 1 - rss / tss
+adj_r_squared = 1 - (1 - r_squared) * (n2 - 1) / (n2 - 2)
+
+r_squared
+adj_r_squared
+```
+
+## 3. Draw the correlation plot and apply linear regression analysis on any prominent dataset. State the inferences based on the analysis.
+```{r}
+d = read.csv("C:/Users/Dishant/Downloads/temp.csv")
+
+plot(d$Temperature, d$Humidity, main = "Correlation Plot", xlab = "Temperature", ylab = "Humidity", pch = 19)
+
+# Linear regression
+model <- lm(d$Humidity ~ d$Temperature)
+abline(model, col = "blue")
+```
+

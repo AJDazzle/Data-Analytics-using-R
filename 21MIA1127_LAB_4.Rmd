@@ -1,0 +1,179 @@
+---
+title: "LAB_4_21MIA1127"
+author: "Dishant"
+date: "2024-08-09"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#install.packages("dplyr")
+```
+
+```{r}
+#PART - A
+#1 Filter the mtcars dataset to include only cars with more than 6 cylinders using dplyr
+library(dplyr)
+df=mtcars%>%filter(cyl>6)
+df
+```
+
+```{r}
+#2 Select only the mpg, cyl, and hp columns from the mtcars dataset
+a = mtcars%>%select(mpg,cyl,hp)
+a
+
+```
+
+
+```{r}
+#3 How can you arrange the mtcars dataset in descending order of mpg using dplyr?
+b = mtcars%>%arrange(desc(mpg))
+b
+
+```
+
+```{r}
+#4 Add a new column to the mtcars dataset that shows the hp per cyl (horsepower per cylinder) 
+new_column = mtcars%>%mutate(hpc=hp/cyl)
+new_column
+
+```
+
+```{r}
+#5 Group the mtcars dataset by the number of cylinders (cyl) and calculate the average miles per gallon (mpg) for each group using dplyr
+avg = mtcars%>%group_by(cyl)%>%summarise(avg_mpg=mean(mpg))
+avg
+
+```
+
+```{r}
+#6 Find the car with the maximum horsepower (hp) in the mtcars dataset using dplyr
+max_hp = mtcars%>%filter(hp==max(hp))
+max_hp
+
+```
+
+
+```{r}
+#7 Calculate the total weight (wt) of cars with 8 cylinders in the mtcars dataset using dplyr
+total_weight = mtcars%>%filter(cyl == 8)%>%summarise(total_wt = sum(wt))
+total_weight
+
+```
+
+
+```{r}
+#8 Find the number of cars that have a gear value of 4 using dplyr
+n = mtcars%>%filter(gear == 4)%>%summarise(count = n())
+n
+
+```
+
+
+```{r}
+#9 Create a new dataframe that contains only cars with an mpg greater than 20 and with am equal to 1 (manual transmission) using dplyr
+m = mtcars%>%filter(mpg>20, am == 1)
+m
+
+```
+
+
+```{r}
+#10 Calculate the average horsepower (hp) and the average weight (wt) for cars grouped by the number of gears (gear) using dplyr
+avg_g = mtcars%>%group_by(gear)%>%summarise(avg_hp = mean(hp), avg_wt = mean(wt))
+avg_g
+
+```
+
+
+```{r}
+#PART - B
+df_1 = data.frame(flight_ID = c("AA123", "BA202", "DL303", "UA404", "SW505"), Origin = c("New York", "London", "Los Angeles", "chicago", "Houston"), destination = c("Los Angeles", "New York", "chicago", "San Francisco", "Miami"), duration_hours = c(6.0, 8.0, 4.5, 4.0, 3.0), airline = c("American Airlines", "British Airways", "Delta", "United Airlines", "Southwest"), flight_category = c("Long-Haul", "Long-Haul", "short-Haul", "short-Haul", "short-Haul"))
+
+df_1
+
+```
+
+```{r}
+#1: Which flights are operated by American Airlines?
+american_airlines = df_1%>%filter(airline=="American Airlines")
+american_airlines
+
+```
+
+
+```{r}
+#2: What is the shortest flight duration in the DataFrame?
+s = min(df_1$duration_hours)
+s
+
+```
+
+
+```{r}
+#3: What is the destination of the flight originating from London?
+destination = df_1%>%filter(Origin=="London")%>%select(destination)
+destination
+
+```
+
+
+```{r}
+#4: How many flights have a duration longer than 5 hours?
+l = df_1%>%filter(duration_hours>5)%>%summarise(count=n())
+l
+
+```
+
+
+```{r}
+#5: Which flight has the flight ID "UA404" and what is its destination?
+ua404_destination = df_1%>%filter(flight_ID == "UA404")%>%select(destination)
+ua404_destination
+
+```
+
+
+```{r}
+#6: What is the average duration of all flights in the DataFrame?
+avg_d = mean(df_1$duration_hours)
+avg_d
+
+```
+
+
+```{r}
+#7: Which flight has the longest duration, and what is the airline?
+longest_flight = df_1%>%filter(duration_hours == max(duration_hours))%>%select(flight_ID,airline)
+longest_flight
+
+```
+
+
+```{r}
+#8: What is the origin of the shortest flight?
+o = df_1%>%filter(duration_hours == min(duration_hours))%>%select(Origin)
+o
+
+```
+
+
+```{r}
+#9: Which flights are classified as "Short-Haul"?
+short_haul_flights = df_1%>%filter(flight_category == "short-Haul")
+short_haul_flights
+
+```
+
+
+```{r}
+#10: What are the flight IDs of all flights going to Chicago?
+flights_to_chicago = df_1%>%filter(destination == "chicago")%>%select(flight_ID)
+flights_to_chicago
+
+```
+

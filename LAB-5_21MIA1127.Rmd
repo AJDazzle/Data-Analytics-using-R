@@ -1,0 +1,154 @@
+---
+title: "Lab-5_21MIA11127"
+author: "21MIA1127 Dishant naik"
+date: "2024-08-16"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+library(dplyr)
+```
+
+```{r}
+#1 Read the contents of “temp.csv” file into a dataframe.
+df = data.frame(read.csv("C:/Users/Dishant/Downloads/temp.csv"))
+df
+```
+```{r}
+df$CDate
+df$CDate = as.Date(df$CDate, format = "%d-%m-%Y")
+df
+```
+
+
+```{r}
+#2 How many rows in the dataframe have missing values?
+missing_values = sum(!complete.cases(df))
+missing_values
+```
+
+
+```{r}
+#3 Which rows in the dataframe are complete (i.e., have no missing values)?
+complete_rows = sum(complete.cases(df))
+complete_rows
+```
+
+
+```{r}
+#4 Display only the rows that have missing values.
+missing_row = df[!complete.cases(df),]
+missing_row
+```
+
+
+```{r}
+#5 Remove rows where the City attribute is missing. How many rows are left?
+df1 = df[!is.na(df$City),]
+city_missing = nrow(df1)
+city_missing
+```
+
+
+```{r}
+#6 Find the average WindSpeed after removing rows with missing WindSpeed values.
+avg_wind = mean(df$WindSpeed,na.rm = TRUE)
+avg_wind
+```
+
+
+```{r}
+#7 Which columns have the most missing values?
+mostmissing = colSums(is.na(df))
+most = names(which.max(mostmissing))
+most
+```
+
+
+```{r}
+#8 Calculate the percentage of missing data in each column.
+mp = colSums(is.na(df))/nrow(df)*100
+mp
+```
+
+
+```{r}
+#9 Create a new dataframe excluding any rows with more than 2 missing values. How many rows are in this new dataframe?
+df2 = df[rowSums(is.na(df))>2,]
+num_rows = nrow(df2)
+num_rows
+```
+
+
+```{r}
+#10 What is the range of dates in the dataframe (i.e., the earliest and latest date)?
+date_range = range(df$CDate,na.rm = TRUE)
+date_range 
+```
+
+
+```{r}
+#11 Extract and display the rows where the Date is a weekend (i.e., Saturday or Sunday).
+weekend = df[weekdays(as.Date(df$CDate))%in%c("Saturday","Sunday"),]
+weekend
+```
+
+
+```{r}
+#12 Add a new column to the dataframe that indicates the day of the week for each Date.
+df$dayofweek = weekdays(as.Date(df$CDate))
+df
+```
+
+
+```{r}
+#13 Filter the dataframe to show only rows where the date is in the first week of August 2023.
+august = df[as.Date(df$CDate)>="2023-08-01" & as.Date(df$CDate)<="2023-08-07",]
+august
+```
+
+
+```{r}
+#14 Calculate the average Temperature for each day of the week (e.g., average temperature for all Mondays, all Tuesdays, etc.).
+avg_temp = df%>%group_by(dayofweek)%>%summarise(avg_temp=mean(Temperature,na.rm=TRUE))
+avg_temp
+```
+
+
+```{r}
+#15 Create a new dataframe containing only the data from the last 5 days of the dataframe.
+max_date = max(df$CDate)
+last_5_days = df[df$CDate >= (max_date - 4), ]
+last_5_days
+```
+
+
+```{r}
+#16 Find the difference in days between the earliest and latest dates in the dataframe.
+earliest_date <- min(df$CDate, na.rm = TRUE)
+latest_date <- max(df$CDate, na.rm = TRUE)
+earliest_date
+latest_date
+
+date_diff <- as.numeric(difftime(latest_date, earliest_date, units = "days"))
+date_diff
+```
+
+
+```{r}
+#17 Filter the dataframe to show only rows where the Date is in the second half of the month (i.e., after the 15th of the month).
+second_half = df[as.numeric(format(df$CDate, "%d")) > 15, ]
+second_half
+```
+
+
+```{r}
+#18 Find the average WindSpeed for dates that are Mondays.
+avg_wind_mondays <- mean(df$WindSpeed[weekdays(df$CDate) == "Monday"], na.rm = TRUE)
+avg_wind_mondays
+
+```
+
